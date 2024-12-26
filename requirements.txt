@@ -1,0 +1,11 @@
+python
+scipy
+numpy
+pandas
+scikit-learn
+openai
+httpx
+levenshtein
+streamlit
+altair
+click

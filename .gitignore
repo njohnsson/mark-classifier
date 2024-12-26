@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+.env.*
+
+# Flask and Python virtual environment
+venv/
+virtualenv/
+*.egg-info/
+dist/
+build/
+
+# Logs and debug output
+*.log
+*.out
+*.err
+logs/
+
+# Data
+data/
+*.csv
+
+# Docker
+
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Temp
+temp/
+
+
+# Testing artifacts
+coverage/
+*.cover
+*.coverage
+.cache/
+.pytest_cache/
+
+# Cache
+.cache/
+node_modules/
+
+# Security
+*.pem
+*.key
+*.crt
