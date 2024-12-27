@@ -94,48 +94,6 @@ def get_response_format(require_term_id=False):
         }
     }
 
-def load_id_manual(idmanual_path, classes_path):
-    """
-    Load the ID manual, clean up, and enrich it with class names from a lookup file.
-    
-    Parameters:
-        idmanual_path (str): Path to the ID manual CSV file.
-        classes_path (str): Path to the classes lookup CSV file.
-    
-    Returns:
-        idm (pd.DataFrame): A cleaned and enriched DataFrame of the ID manual.
-    """
-    # Load ID manual and classes lookup
-    idm_raw = pd.read_csv(idmanual_path, low_memory=False)
-    classes_df = pd.read_csv(classes_path)
-    classes_df['class_id'] = classes_df['class_id'].astype(str)
-    
-    # Merge class names into the ID manual
-    idm = idm_raw.merge(classes_df, left_on="Class", right_on="class_id", how='left')
-    idm.drop(columns=['Class'], inplace=True)
-
-    # Clean up column names
-    idm.columns = idm.columns.str.lower().str.replace(' ', '_').str.replace(r'[^\w\s]', '', regex=True)
-    
-    # Convert dates and clean specific columns
-    idm['effective_date'] = pd.to_datetime(idm['effective_date'], errors='coerce')
-    idm['ncl_version'] = idm['ncl_version'].str.replace('"', '', regex=False)
-    
-    # Reorder columns
-    column_order = ['class_id', 'class_name', 'type', 'term_id', 'description', 
-                    'ncl_version', 'status', 'effective_date', 'notes']
-    idm = idm[column_order]
-    
-    # Remove logically deleted records
-    idm = idm[idm['status'] != 'D']
-    
-    # Reset index
-    idm.reset_index(drop=True, inplace=True)
-    
-    print(f"Loaded {len(idm)} records from ID manual.")
-
-    return idm
-
 
 def search_one_term(search_term, class_id, idm, sort_by="cosine_sim", max_nbr_terms_returned=10):
     """
